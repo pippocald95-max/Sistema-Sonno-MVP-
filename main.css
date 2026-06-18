@@ -1,6 +1,6 @@
 /* ==========================================================================
    MAIN.CSS — Design Tokens & Base Reset
-   Sistema Sonno — Nexus Design System
+   Sistema Sonno — Sleep-Focused Brand Design
    ========================================================================== */
 
 /* --------------------------------------------------------------------------
@@ -13,44 +13,64 @@
    -------------------------------------------------------------------------- */
 :root,
 [data-theme="light"] {
-  /* Colors */
-  --color-bg:             #f7f6f2;
-  --color-surface:        #f9f8f5;
-  --color-surface-2:      #fbfbf9;
-  --color-surface-offset: #f3f0ec;
-  --color-divider:        #dcd9d5;
-  --color-border:         #d4d1ca;
-  --color-text:           #28251d;
-  --color-text-muted:     #7a7974;
-  --color-text-faint:     #bab9b4;
-  --color-primary:        #01696f;
-  --color-primary-hover:  #0c4e54;
+  /* Surfaces — warm cream, like linen sheets */
+  --color-bg:               #f5f3ee;
+  --color-surface:          #f8f6f2;
+  --color-surface-2:        #faf9f6;
+  --color-surface-offset:   #ede9e2;
+  --color-surface-offset-2: #e6e0d8;
+  --color-surface-dynamic:  #ddd7cd;
+  --color-divider:          #d4cfc6;
+  --color-border:           #ccc6bc;
+
+  /* Text — warm dark, not cold black */
+  --color-text:             #1e1c18;
+  --color-text-muted:       #6b6760;
+  --color-text-faint:       #b0aca4;
+  --color-text-inverse:     #f5f3ee;
+
+  /* Primary — deep midnight blue (trust, calm, sleep, authority) */
+  --color-primary:          #1b3a5c;
+  --color-primary-hover:    #142d47;
+  --color-primary-active:   #0d2035;
+  --color-primary-highlight:#d0dae6;
+
+  /* Accent — warm gold (premium, warmth, Italian elegance) */
+  --color-accent:           #b8952a;
+  --color-accent-hover:     #9a7a1f;
+  --color-accent-active:    #7c6018;
+  --color-accent-highlight: #ede6d0;
+
+  /* Soft moonlight blue for decorative glows */
+  --color-glow:             #4a7fa5;
 
   /* Shadows */
-  --shadow-sm: 0 1px 2px oklch(0.2 0.01 80 / 0.06);
-  --shadow-md: 0 4px 12px oklch(0.2 0.01 80 / 0.08);
-  --shadow-lg: 0 12px 32px oklch(0.2 0.01 80 / 0.12);
+  --shadow-sm: 0 1px 3px oklch(0.15 0.03 240 / 0.08);
+  --shadow-md: 0 4px 16px oklch(0.15 0.03 240 / 0.10);
+  --shadow-lg: 0 12px 40px oklch(0.15 0.03 240 / 0.14);
+  --shadow-glow: 0 0 32px oklch(0.35 0.08 240 / 0.20);
 
   /* Typography */
   --font-display: 'Boska', 'Georgia', serif;
   --font-body: 'Satoshi', 'Inter', system-ui, sans-serif;
 
   /* Fluid type scale */
-  --text-xs:   clamp(0.75rem, 0.7rem + 0.25vw, 0.875rem);
-  --text-sm:   clamp(0.875rem, 0.8rem + 0.35vw, 1rem);
+  --text-xs: clamp(0.75rem, 0.7rem + 0.25vw, 0.875rem);
+  --text-sm: clamp(0.875rem, 0.8rem + 0.35vw, 1rem);
   --text-base: clamp(1rem, 0.95rem + 0.25vw, 1.125rem);
-  --text-lg:   clamp(1.125rem, 1rem + 0.75vw, 1.5rem);
-  --text-xl:   clamp(1.5rem, 1.2rem + 1.25vw, 2.25rem);
-  --text-2xl:  clamp(2rem, 1.2rem + 2.5vw, 3.5rem);
-  --text-3xl:  clamp(2.5rem, 1rem + 4vw, 5rem);
+  --text-lg: clamp(1.125rem, 1rem + 0.75vw, 1.5rem);
+  --text-xl: clamp(1.5rem, 1.2rem + 1.25vw, 2.25rem);
+  --text-2xl: clamp(2rem, 1.2rem + 2.5vw, 3.5rem);
+  --text-3xl: clamp(2.5rem, 1rem + 4vw, 5rem);
 
   /* Spacing */
-  --space-1:  0.25rem;
-  --space-2:  0.5rem;
-  --space-3:  0.75rem;
-  --space-4:  1rem;
-  --space-6:  1.5rem;
-  --space-8:  2rem;
+  --space-1: 0.25rem;
+  --space-2: 0.5rem;
+  --space-3: 0.75rem;
+  --space-4: 1rem;
+  --space-5: 1.25rem;
+  --space-6: 1.5rem;
+  --space-8: 2rem;
   --space-10: 2.5rem;
   --space-12: 3rem;
   --space-16: 4rem;
@@ -59,37 +79,60 @@
   --space-32: 8rem;
 
   /* Border radius */
-  --radius-sm:   0.375rem;
-  --radius-md:   0.5rem;
-  --radius-lg:   0.75rem;
-  --radius-xl:   1rem;
+  --radius-sm: 0.375rem;
+  --radius-md: 0.5rem;
+  --radius-lg: 0.75rem;
+  --radius-xl: 1rem;
+  --radius-2xl: 1.5rem;
   --radius-full: 9999px;
 
   /* Transitions */
-  --transition-fast:   150ms ease;
-  --transition-base:   250ms ease;
-  --transition-slow:   400ms ease;
+  --transition-fast: 150ms ease;
+  --transition-base: 250ms ease;
+  --transition-slow: 400ms ease;
+  --transition: 200ms cubic-bezier(0.16, 1, 0.3, 1);
 
   /* Border color */
   --color-border-subtle: oklch(from var(--color-text) l c h / 0.12);
 }
 
 [data-theme="dark"] {
-  --color-bg:             #171614;
-  --color-surface:        #1c1b19;
-  --color-surface-2:      #201f1d;
-  --color-surface-offset: #1d1c1a;
-  --color-divider:        #262523;
-  --color-border:         #393836;
-  --color-text:           #cdccca;
-  --color-text-muted:     #797876;
-  --color-text-faint:     #5a5957;
-  --color-primary:        #4f98a3;
-  --color-primary-hover:  #227f8b;
+  /* Surfaces — deep night sky */
+  --color-bg:               #0d1117;
+  --color-surface:          #111720;
+  --color-surface-2:        #151d28;
+  --color-surface-offset:   #121820;
+  --color-surface-offset-2: #192030;
+  --color-surface-dynamic:  #1e2838;
+  --color-divider:          #222f42;
+  --color-border:           #2a3a52;
 
-  --shadow-sm: 0 1px 2px oklch(0.05 0.01 80 / 0.3);
-  --shadow-md: 0 4px 12px oklch(0.05 0.01 80 / 0.4);
-  --shadow-lg: 0 12px 32px oklch(0.05 0.01 80 / 0.5);
+  /* Text */
+  --color-text:             #e8e4dc;
+  --color-text-muted:       #8a9ab0;
+  --color-text-faint:       #4a5a6e;
+  --color-text-inverse:     #0d1117;
+
+  /* Primary — lighter blue for dark bg contrast */
+  --color-primary:          #6b9fd4;
+  --color-primary-hover:    #89b5e0;
+  --color-primary-active:   #a7caea;
+  --color-primary-highlight:#1a2d42;
+
+  /* Accent — gold stays warm */
+  --color-accent:           #d4a83a;
+  --color-accent-hover:     #e0bc5a;
+  --color-accent-active:    #eccf7a;
+  --color-accent-highlight: #2a2210;
+
+  /* Glow */
+  --color-glow:             #4a7fa5;
+
+  /* Shadows on dark */
+  --shadow-sm: 0 1px 3px oklch(0 0 0 / 0.25);
+  --shadow-md: 0 4px 16px oklch(0 0 0 / 0.35);
+  --shadow-lg: 0 12px 40px oklch(0 0 0 / 0.45);
+  --shadow-glow: 0 0 48px oklch(0.4 0.1 220 / 0.30);
 }
 
 /* --------------------------------------------------------------------------
@@ -157,7 +200,12 @@ select {
   font-size: var(--text-base);
 }
 
-h1, h2, h3, h4, h5, h6 {
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
   font-family: var(--font-display);
   font-weight: 500;
   line-height: 1.15;

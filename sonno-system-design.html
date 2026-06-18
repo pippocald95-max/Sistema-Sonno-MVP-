@@ -1,0 +1,469 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Servizio premium di analisi del sonno: anamnesi approfondita, metodo multidisciplinare e strategie personalizzate per migliorare il recupero reale.">
+  <meta property="og:title" content="Sonno System Design">
+  <meta property="og:description" content="Il sonno è un sistema da progettare.">
+  <meta property="og:type" content="website">
+  <title>Sonno System Design</title>
+  <link rel="preconnect" href="https://api.fontshare.com">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://api.fontshare.com/v2/css?f[]=satoshi@300,400,500,700,900&f[]=general-sans@400,500,600,700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="./style.css">
+  <script defer src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/ScrollTrigger.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/@studio-freight/lenis@1.0.42/bundled/lenis.min.js"></script>
+  <script defer src="https://unpkg.com/split-type@0.3.2"></script>
+  <script defer src="./main.js"></script>
+  <style>
+    /* Ensure reveal elements are visible by default; GSAP will animate them if available */
+    .reveal {
+      opacity: 1 !important;
+      visibility: visible !important;
+    }
+  </style>
+</head>
+<body>
+  <a class="skip-link" href="#contenuto">Vai al contenuto</a>
+  <canvas id="ambient-canvas" aria-hidden="true"></canvas>
+  <div class="noise" aria-hidden="true"></div>
+  <header class="site-header" data-header>
+    <div class="container header-inner">
+      <a href="#hero" class="brand" aria-label="Sonno System Design, torna all'inizio">
+        <svg viewBox="0 0 148 28" fill="none" aria-hidden="true">
+          <path d="M14 4.5C8.201 4.5 3.5 9.201 3.5 15s4.701 10.5 10.5 10.5S24.5 20.799 24.5 15 19.799 4.5 14 4.5Z" stroke="currentColor" stroke-width="1.1"/>
+          <path d="M14 8.25c-3.728 0-6.75 3.022-6.75 6.75s3.022 6.75 6.75 6.75 6.75-3.022 6.75-6.75S17.728 8.25 14 8.25Z" stroke="currentColor" stroke-width="1.1" opacity=".6"/>
+          <path d="M33 20.1V7.9h2.42l6.86 8.53V7.9h2.86v12.2h-2.42l-6.88-8.55v8.55H33Z" fill="currentColor"/>
+          <path d="M48.818 20.1V7.9h9.028v2.37h-6.083v2.55h5.674v2.31h-5.674v2.6h6.083v2.37h-9.028Z" fill="currentColor"/>
+          <path d="M64.745 20.3c-1.244 0-2.347-.219-3.31-.657-.95-.45-1.774-1.123-2.471-2.021l1.936-1.785c.9 1.051 2.14 1.577 3.722 1.577.76 0 1.355-.123 1.785-.37.44-.258.661-.617.661-1.077 0-.313-.086-.57-.258-.77-.172-.211-.425-.388-.76-.53a6.518 6.518 0 0 0-1.255-.4l-1.333-.297a12.906 12.906 0 0 1-1.381-.43 4.844 4.844 0 0 1-1.256-.69 3.134 3.134 0 0 1-.899-1.09c-.223-.45-.335-1.006-.335-1.668 0-.75.188-1.433.564-2.048a3.93 3.93 0 0 1 1.673-1.457c.737-.36 1.592-.54 2.563-.54 1.14 0 2.149.196 3.028.59a6.363 6.363 0 0 1 2.342 1.714l-1.936 1.788a4.733 4.733 0 0 0-1.482-1.162 4.1 4.1 0 0 0-1.952-.443c-.664 0-1.177.114-1.539.342-.361.227-.542.54-.542.94 0 .288.087.524.26.708.182.176.434.323.757.44.335.114.76.233 1.274.357l1.352.325c.478.103.935.24 1.37.416.444.166.84.398 1.186.696.352.288.631.67.838 1.147.217.466.326 1.043.326 1.733 0 1.201-.446 2.144-1.339 2.832-.883.676-2.104 1.014-3.666 1.014Z" fill="currentColor"/>
+          <path d="M76.663 20.3c-1.307 0-2.487-.278-3.543-.833a6.388 6.388 0 0 1-2.504-2.368c-.607-1.016-.91-2.177-.91-3.485 0-1.306.303-2.464.91-3.474a6.33 6.33 0 0 1 2.504-2.381c1.056-.556 2.236-.834 3.543-.834 1.316 0 2.5.278 3.55.834a6.262 6.262 0 0 1 2.506 2.381c.607 1.01.91 2.168.91 3.474 0 1.308-.303 2.469-.91 3.485a6.317 6.317 0 0 1-2.505 2.368c-1.05.555-2.235.833-3.551.833Zm0-2.725c.753 0 1.432-.172 2.037-.516a3.784 3.784 0 0 0 1.447-1.457c.355-.628.532-1.357.532-2.188 0-.831-.177-1.556-.532-2.176a3.781 3.781 0 0 0-1.447-1.46c-.605-.345-1.284-.518-2.037-.518-.744 0-1.42.173-2.026.518a3.739 3.739 0 0 0-1.438 1.46c-.344.62-.516 1.345-.516 2.176 0 .83.172 1.56.516 2.188a3.741 3.741 0 0 0 1.438 1.457c.606.344 1.282.516 2.026.516Z" fill="currentColor"/>
+          <path d="M85.895 20.1V7.9h2.42l6.86 8.53V7.9h2.86v12.2h-2.42l-6.88-8.55v8.55h-2.84Z" fill="currentColor"/>
+          <path d="M104.084 20.1V7.9h4.908c1.38 0 2.603.257 3.667.77 1.074.504 1.915 1.23 2.522 2.178.607.939.91 2.063.91 3.373 0 1.308-.303 2.44-.91 3.395-.607.939-1.448 1.666-2.522 2.179-1.064.504-2.287.756-3.667.756h-4.908Zm2.944-2.51h1.849c.821 0 1.537-.14 2.149-.421a3.13 3.13 0 0 0 1.424-1.267c.333-.562.499-1.238.499-2.028 0-.789-.166-1.461-.499-2.016a3.116 3.116 0 0 0-1.424-1.27c-.612-.281-1.328-.421-2.149-.421h-1.849v7.423Z" fill="currentColor"/>
+          <path d="M118.272 20.1V7.9h2.945v12.2h-2.945Z" fill="currentColor"/>
+          <path d="M124.545 20.1V7.9h2.42l6.859 8.53V7.9h2.861v12.2h-2.42l-6.88-8.55v8.55h-2.84Z" fill="currentColor"/>
+          <path d="M145.002 20.3c-1.3 0-2.475-.272-3.522-.815a6.177 6.177 0 0 1-2.471-2.337c-.597-1.006-.896-2.169-.896-3.49 0-1.305.304-2.465.913-3.477a6.359 6.359 0 0 1 2.503-2.386c1.065-.556 2.26-.834 3.587-.834 1.522 0 2.816.325 3.883.975 1.077.65 1.855 1.521 2.334 2.613l-2.65 1.333a3.257 3.257 0 0 0-1.304-1.409 3.56 3.56 0 0 0-1.828-.495c-.76 0-1.446.17-2.058.509a3.601 3.601 0 0 0-1.438 1.443c-.343.614-.516 1.34-.516 2.178 0 .85.173 1.588.516 2.211.353.614.832 1.087 1.438 1.423.612.325 1.317.487 2.114.487.618 0 1.188-.1 1.707-.304.528-.204.965-.497 1.311-.88v-1.144h-3.12v-2.445h5.911v4.76c-.632.739-1.435 1.31-2.408 1.713-.963.394-2.01.591-3.139.591Z" fill="currentColor"/>
+        </svg>
+      </a>
+      <nav class="main-nav" aria-label="Navigazione primaria">
+        <a href="#problema">Il problema</a>
+        <a href="#sistema">Il sistema</a>
+        <a href="#metodo">Il metodo</a>
+        <a href="#anamnesi">Anamnesi</a>
+        <a href="#approfondimenti">Approfondimenti</a>
+        <a href="#faq">FAQ</a>
+      </nav>
+      <a class="header-cta" href="#anamnesi">Prenota l'anamnesi</a>
+      <button class="nav-toggle" type="button" aria-expanded="false" aria-controls="mobile-menu" data-nav-toggle>
+        <span class="sr-only">Apri menu</span>
+        <span></span><span></span>
+      </button>
+    </div>
+    <div class="mobile-menu" id="mobile-menu" data-mobile-menu>
+      <a href="#problema">Il problema</a>
+      <a href="#sistema">Il sistema</a>
+      <a href="#metodo">Il metodo</a>
+      <a href="#anamnesi">Anamnesi</a>
+      <a href="#percorsi">Percorsi</a>
+      <a href="#faq">FAQ</a>
+    </div>
+  </header>
+
+  <main id="contenuto">
+    <section class="hero section" id="hero">
+      <div class="container hero-grid">
+        <div class="hero-copy reveal">
+          <p class="eyebrow">SLEEP SYSTEM DESIGN</p>
+          <h1>Il sonno è un sistema da progettare.</h1>
+          <p class="hero-lead">Attraverso un’analisi approfondita individuiamo i fattori che compromettono il tuo riposo e costruiamo il percorso più efficace per il tuo caso.</p>
+          <div class="hero-actions">
+            <a class="btn btn-primary" href="#anamnesi">Prenota l’anamnesi</a>
+            <a class="btn btn-secondary" href="#metodo">Scopri il metodo</a>
+          </div>
+          <div class="hero-metrics" aria-label="Elementi distintivi del servizio">
+            <div>
+              <span class="metric-label">Approccio</span>
+              <strong>Multifattoriale</strong>
+            </div>
+            <div>
+              <span class="metric-label">Lettura</span>
+              <strong>Clinica, comportamentale, ambientale</strong>
+            </div>
+            <div>
+              <span class="metric-label">Obiettivo</span>
+              <strong>Recupero reale</strong>
+            </div>
+          </div>
+        </div>
+        <div class="hero-visual reveal" aria-hidden="true">
+          <svg class="hero-network" viewBox="0 0 640 640" fill="none">
+            <defs>
+              <radialGradient id="heroGlow" cx="50%" cy="50%" r="50%">
+                <stop offset="0%" stop-color="rgba(143,163,181,0.28)"/>
+                <stop offset="65%" stop-color="rgba(143,163,181,0.07)"/>
+                <stop offset="100%" stop-color="rgba(143,163,181,0)"/>
+              </radialGradient>
+              <filter id="softBlur" x="-50%" y="-50%" width="200%" height="200%">
+                <feGaussianBlur stdDeviation="12" />
+              </filter>
+            </defs>
+            <circle cx="320" cy="320" r="180" fill="url(#heroGlow)" filter="url(#softBlur)"/>
+            <g class="network-lines" stroke="currentColor" stroke-opacity=".22" stroke-width="1">
+              <path d="M128 146 264 210 320 320 432 252 518 320"/>
+              <path d="M138 454 242 378 320 320 396 404 506 462"/>
+              <path d="M186 240 320 320 450 398"/>
+              <path d="M202 132 320 320 436 512"/>
+              <path d="M436 120 320 320 202 520"/>
+              <path d="M116 320h404"/>
+              <path d="M216 96c28 56 71 93 104 224 28 112 72 146 112 224"/>
+            </g>
+            <g class="network-rings" stroke="currentColor" stroke-opacity=".16" fill="none">
+              <circle cx="320" cy="320" r="84"/>
+              <circle cx="320" cy="320" r="144"/>
+              <circle cx="320" cy="320" r="208"/>
+            </g>
+            <g class="network-nodes">
+              <circle cx="320" cy="320" r="10" class="core-node"/>
+              <circle cx="128" cy="146" r="5"/>
+              <circle cx="264" cy="210" r="5"/>
+              <circle cx="432" cy="252" r="5"/>
+              <circle cx="518" cy="320" r="5"/>
+              <circle cx="138" cy="454" r="5"/>
+              <circle cx="242" cy="378" r="5"/>
+              <circle cx="396" cy="404" r="5"/>
+              <circle cx="506" cy="462" r="5"/>
+              <circle cx="202" cy="132" r="5"/>
+              <circle cx="436" cy="120" r="5"/>
+              <circle cx="202" cy="520" r="5"/>
+              <circle cx="436" cy="512" r="5"/>
+            </g>
+          </svg>
+        </div>
+      </div>
+    </section>
+
+    <section class="section problem" id="problema">
+      <div class="container section-intro reveal">
+        <p class="eyebrow">Il problema</p>
+        <h2>Dormire non significa necessariamente recuperare.</h2>
+      </div>
+      <div class="container problem-grid">
+        <article class="problem-text reveal">
+          <p>Molte persone convivono per anni con un sonno leggero, risvegli frequenti, stanchezza cronica, difficoltà di concentrazione, tensione mentale e con quella sensazione persistente di non recuperare davvero. Il tempo trascorso a letto può sembrare sufficiente, ma il sistema che dovrebbe sostenere il recupero continua a funzionare male.</p>
+          <p>Quando il problema si prolunga, è naturale cercare soluzioni rapide: integratori, routine serali, dispositivi, materassi, tecniche di rilassamento. A volte aiutano in parte, ma raramente risolvono il quadro quando le cause reali non sono state distinte e messe in relazione.</p>
+          <p>Il sonno non dipende mai da un solo fattore. È il risultato di un sistema complesso in cui fisiologia, abitudini, stress, alimentazione, ambiente e recupero interagiscono continuamente.</p>
+        </article>
+        <aside class="problem-aside reveal" aria-label="Segnali ricorrenti">
+          <div class="detail-panel">
+            <span class="panel-kicker">Segnali ricorrenti</span>
+            <ul role="list">
+              <li>Sonno leggero e poco stabile</li>
+              <li>Risvegli notturni o precoci</li>
+              <li>Fatica mentale al risveglio</li>
+              <li>Concentrazione ridotta durante il giorno</li>
+              <li>Sovraccarico e iperattivazione serale</li>
+            </ul>
+          </div>
+          <div class="detail-panel muted">
+            <span class="panel-kicker">Errore più comune</span>
+            <p>Trattare il sonno come un sintomo isolato invece che come l’espressione di un sistema da leggere nel suo insieme.</p>
+          </div>
+        </aside>
+      </div>
+    </section>
+
+    <section class="section manifesto" id="sistema">
+      <div class="container manifesto-header reveal">
+        <p class="eyebrow">Il sonno è un sistema</p>
+        <h2>Quando cambia un nodo, cambia l’intero equilibrio.</h2>
+        <p>Per questo il lavoro non parte da un consiglio standard, ma da una mappa delle interdipendenze che stanno generando il tuo sonno attuale.</p>
+      </div>
+      <div class="container system-stage" data-pin-wrap>
+        <div class="system-copy reveal">
+          <p class="system-caption">Manifesto operativo</p>
+          <p>Stress, nutrizione, ritmo circadiano, ergonomia, respirazione, ambiente, abitudini e qualità del recupero non agiscono separatamente. Si influenzano a vicenda e producono un risultato che spesso viene interpretato in modo troppo semplice.</p>
+        </div>
+        <div class="system-diagram-wrap" data-diagram-wrap>
+          <svg class="system-diagram" id="system-diagram" viewBox="0 0 960 760" role="img" aria-labelledby="diagram-title diagram-desc">
+            <title id="diagram-title">Diagramma del sistema sonno</title>
+            <desc id="diagram-desc">Mappa interattiva con il nodo centrale Sonno e nove fattori collegati che influenzano il recupero.</desc>
+            <defs>
+              <radialGradient id="coreGradient" cx="50%" cy="50%" r="55%">
+                <stop offset="0%" stop-color="#d7e0e6" stop-opacity="0.95"/>
+                <stop offset="48%" stop-color="#8fa3b5" stop-opacity="0.42"/>
+                <stop offset="100%" stop-color="#8fa3b5" stop-opacity="0"/>
+              </radialGradient>
+              <linearGradient id="lineGradient" x1="180" y1="140" x2="780" y2="620" gradientUnits="userSpaceOnUse">
+                <stop offset="0%" stop-color="#6c7a89" stop-opacity="0.12"/>
+                <stop offset="50%" stop-color="#f5f5f0" stop-opacity="0.3"/>
+                <stop offset="100%" stop-color="#6c7a89" stop-opacity="0.12"/>
+              </linearGradient>
+            </defs>
+            <g class="diagram-field" stroke="rgba(245,245,240,0.06)" fill="none">
+              <circle cx="480" cy="380" r="112"></circle>
+              <circle cx="480" cy="380" r="174"></circle>
+              <circle cx="480" cy="380" r="248"></circle>
+            </g>
+            <g class="diagram-links" stroke="url(#lineGradient)" stroke-width="1.2" stroke-linecap="round">
+              <path data-line="Stress" d="M480 380C390 327 326 260 274 180"></path>
+              <path data-line="Nutrizione" d="M480 380C408 390 322 418 220 462"></path>
+              <path data-line="Ritmo Circadiano" d="M480 380C512 294 558 226 640 152"></path>
+              <path data-line="Ergonomia" d="M480 380C556 422 625 462 730 508"></path>
+              <path data-line="Recupero" d="M480 380C472 472 470 540 478 630"></path>
+              <path data-line="Respirazione" d="M480 380C566 356 660 334 770 318"></path>
+              <path data-line="Neuroscienze" d="M480 380C424 306 380 248 364 150"></path>
+              <path data-line="Ambiente" d="M480 380C390 432 340 494 300 598"></path>
+              <path data-line="Abitudini" d="M480 380C534 456 592 536 652 612"></path>
+            </g>
+            <g class="diagram-node diagram-node--core" data-node="SONNO" tabindex="0" role="button" aria-label="SONNO, nodo centrale">
+              <circle cx="480" cy="380" r="80"></circle>
+              <circle cx="480" cy="380" r="112" class="core-halo"></circle>
+              <text x="480" y="386" text-anchor="middle">SONNO</text>
+            </g>
+            <g class="diagram-node" data-node="Stress" tabindex="0" role="button" transform="translate(262 164)" aria-label="Stress">
+              <circle r="44"></circle><text text-anchor="middle" y="5">Stress</text>
+            </g>
+            <g class="diagram-node" data-node="Nutrizione" tabindex="0" role="button" transform="translate(198 472)" aria-label="Nutrizione">
+              <circle r="46"></circle><text text-anchor="middle" y="5">Nutrizione</text>
+            </g>
+            <g class="diagram-node" data-node="Ritmo Circadiano" tabindex="0" role="button" transform="translate(664 138)" aria-label="Ritmo circadiano">
+              <circle r="56"></circle><text text-anchor="middle" y="-3">Ritmo</text><text text-anchor="middle" y="16">Circadiano</text>
+            </g>
+            <g class="diagram-node" data-node="Ergonomia" tabindex="0" role="button" transform="translate(752 520)" aria-label="Ergonomia">
+              <circle r="48"></circle><text text-anchor="middle" y="5">Ergonomia</text>
+            </g>
+            <g class="diagram-node" data-node="Recupero" tabindex="0" role="button" transform="translate(478 654)" aria-label="Recupero">
+              <circle r="48"></circle><text text-anchor="middle" y="5">Recupero</text>
+            </g>
+            <g class="diagram-node" data-node="Respirazione" tabindex="0" role="button" transform="translate(792 312)" aria-label="Respirazione">
+              <circle r="52"></circle><text text-anchor="middle" y="5">Respirazione</text>
+            </g>
+            <g class="diagram-node" data-node="Neuroscienze" tabindex="0" role="button" transform="translate(358 126)" aria-label="Neuroscienze">
+              <circle r="52"></circle><text text-anchor="middle" y="5">Neuroscienze</text>
+            </g>
+            <g class="diagram-node" data-node="Ambiente" tabindex="0" role="button" transform="translate(284 616)" aria-label="Ambiente">
+              <circle r="48"></circle><text text-anchor="middle" y="5">Ambiente</text>
+            </g>
+            <g class="diagram-node" data-node="Abitudini" tabindex="0" role="button" transform="translate(666 632)" aria-label="Abitudini">
+              <circle r="48"></circle><text text-anchor="middle" y="5">Abitudini</text>
+            </g>
+          </svg>
+          <div class="diagram-panel" data-diagram-panel>
+            <span class="panel-kicker">Nodo attivo</span>
+            <h3 data-panel-title>SONNO</h3>
+            <p data-panel-text>Il sonno è l’esito emergente di tutto il sistema. Per comprenderlo in modo utile bisogna leggere come i fattori si rinforzano, si compensano o si disturbano tra loro.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section method" id="metodo">
+      <div class="container method-grid">
+        <div class="section-intro reveal">
+          <p class="eyebrow">Il metodo</p>
+          <h2>Ogni percorso inizia con un’anamnesi approfondita.</h2>
+        </div>
+        <div class="method-body reveal">
+          <p>L’obiettivo non è semplificare il problema, ma comprendere le dinamiche che stanno influenzando il recupero della persona. Per questo l’analisi prende in considerazione qualità del sonno, abitudini quotidiane, alimentazione, stress, ambiente di riposo, ritmi biologici ed ergonomia del sistema di recupero.</p>
+          <p>Da questa lettura nasce una strategia costruita sul caso specifico: non protocolli standard, non consigli generici, ma un lavoro personalizzato orientato al recupero reale.</p>
+        </div>
+      </div>
+      <div class="container method-columns">
+        <article class="method-card reveal">
+          <span class="panel-kicker">Analisi</span>
+          <h3>Lettura delle interferenze</h3>
+          <p>Individuiamo le criticità che alterano stabilità, profondità e continuità del sonno, evitando interpretazioni isolate.</p>
+        </article>
+        <article class="method-card reveal">
+          <span class="panel-kicker">Correlazioni</span>
+          <h3>Mappa delle relazioni</h3>
+          <p>Mettiamo in relazione segnali, comportamenti, ritmi e contesto per capire che cosa sostiene davvero il problema.</p>
+        </article>
+        <article class="method-card reveal">
+          <span class="panel-kicker">Strategia</span>
+          <h3>Percorso orientato al recupero</h3>
+          <p>Traduciamo l’analisi in priorità operative e in un percorso adatto al profilo della persona, al suo carico e ai suoi obiettivi.</p>
+        </article>
+      </div>
+    </section>
+
+    <section class="section anamnesi" id="anamnesi">
+      <div class="container anamnesi-layout">
+        <div class="anamnesi-copy reveal">
+          <p class="eyebrow">Anamnesi del sonno</p>
+          <h2>La fase decisiva per distinguere cause, correlazioni e squilibri.</h2>
+          <p>Questa fase costruisce il quadro di lettura da cui parte tutto il lavoro successivo. Non serve a raccogliere informazioni in modo generico, ma a identificare criticità, correlazioni, interferenze e squilibri del sistema sonno.</p>
+          <ul class="feature-list" role="list">
+            <li>Diario del sonno</li>
+            <li>Diario alimentare</li>
+            <li>Questionari di valutazione</li>
+            <li>Analisi delle abitudini</li>
+            <li>Valutazione del sistema di riposo</li>
+            <li>Colloquio approfondito</li>
+          </ul>
+        </div>
+        <aside class="anamnesi-card reveal">
+          <div class="price-topline">Analisi premium iniziale</div>
+          <h3>Anamnesi del Sonno — 150€</h3>
+          <p>Un investimento chiaro per ottenere una lettura rigorosa del sistema che genera il tuo sonno attuale.</p>
+          <div class="price-breakdown">
+            <div><span>Focus</span><strong>Recupero, non sola durata</strong></div>
+            <div><span>Output</span><strong>Ipotesi operative e priorità</strong></div>
+            <div><span>Approccio</span><strong>Personalizzato e multidisciplinare</strong></div>
+          </div>
+          <a class="btn btn-primary btn-block" href="#contatto">Prenota l’anamnesi — 150€</a>
+        </aside>
+      </div>
+    </section>
+
+    <section class="section percorsi" id="percorsi">
+      <div class="container section-intro reveal">
+        <p class="eyebrow">Percorsi</p>
+        <h2>Strategie diverse per problemi diversi.</h2>
+      </div>
+      <div class="container path-grid">
+        <article class="path-card reveal">
+          <span class="path-index">01</span>
+          <h3>Percorso Insonnia</h3>
+          <p>Per quadri caratterizzati da addormentamento difficile, risvegli, iperattivazione mentale e perdita di continuità del sonno.</p>
+        </article>
+        <article class="path-card reveal">
+          <span class="path-index">02</span>
+          <h3>Ottimizzazione del Sonno</h3>
+          <p>Per chi dorme ma non recupera abbastanza, con calo di energia, lucidità o performance durante il giorno.</p>
+        </article>
+        <article class="path-card reveal">
+          <span class="path-index">03</span>
+          <h3>Sistema di Riposo</h3>
+          <p>Per intervenire sul contesto materiale e posturale del recupero: ambiente, ergonomia e coerenza del sistema notte.</p>
+        </article>
+      </div>
+    </section>
+
+    <section class="section multidisciplinary" id="multidisciplinarita">
+      <div class="container multidisciplinary-grid">
+        <div class="section-intro reveal">
+          <p class="eyebrow">Multidisciplinarità</p>
+          <h2>Il sonno non può essere analizzato da una sola prospettiva.</h2>
+        </div>
+        <div class="discipline-list reveal">
+          <article>
+            <h3>Psicoterapia</h3>
+            <p>Per leggere i processi di attivazione, le dinamiche emotive e gli automatismi che interferiscono con il recupero.</p>
+          </article>
+          <article>
+            <h3>Nutrizione specializzata nel sonno</h3>
+            <p>Per valutare timing, composizione e interferenze alimentari che incidono sull’architettura notturna.</p>
+          </article>
+          <article>
+            <h3>Neuroscienze</h3>
+            <p>Per interpretare il sonno come processo regolativo, cognitivo e fisiologico, non come semplice abitudine.</p>
+          </article>
+          <article>
+            <h3>Progettazione del sistema di riposo</h3>
+            <p>Per integrare ergonomia, ambiente e qualità del contesto in un’analisi realmente orientata al recupero.</p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section class="section authority" id="approfondimenti">
+      <div class="container authority-head reveal">
+        <p class="eyebrow">Autorevolezza / approfondimenti</p>
+        <h2>Una piattaforma editoriale costruita per chiarire, non per semplificare.</h2>
+      </div>
+      <div class="container insights-grid">
+        <article class="insight-card reveal">
+          <span class="insight-type">Approfondimento</span>
+          <h3>Perché dormire molte ore non significa recuperare</h3>
+          <p>La quantità può ingannare quando la qualità, la continuità e l’efficienza del recupero restano compromesse.</p>
+        </article>
+        <article class="insight-card reveal">
+          <span class="insight-type">Approfondimento</span>
+          <h3>Il ruolo dell’ambiente nel recupero notturno</h3>
+          <p>L’ambiente non è una cornice neutra: temperatura, luce, micro-rumori, postura e materiali partecipano al risultato.</p>
+        </article>
+        <article class="insight-card reveal">
+          <span class="insight-type">Approfondimento</span>
+          <h3>Stress e iperattivazione mentale</h3>
+          <p>Il problema non è solo lo stress percepito, ma il modo in cui il sistema resta in attivazione anche quando dovrebbe rallentare.</p>
+        </article>
+        <article class="insight-card reveal">
+          <span class="insight-type">Approfondimento</span>
+          <h3>Sonno frammentato e recupero cognitivo</h3>
+          <p>Quando il sonno si interrompe, l’effetto sul giorno successivo può essere più profondo di quanto il numero di ore lasci intuire.</p>
+        </article>
+        <article class="insight-card reveal wide">
+          <span class="insight-type">Approfondimento</span>
+          <h3>Ritmo circadiano e performance</h3>
+          <p>Comprendere il ritmo biologico significa intervenire sul timing dei processi che preparano il sistema al recupero, alla vigilanza e alla continuità della prestazione.</p>
+        </article>
+      </div>
+    </section>
+
+    <section class="section testimonials" id="testimonianze">
+      <div class="container section-intro reveal">
+        <p class="eyebrow">Testimonianze</p>
+        <h2>Riscontri sobri, letture precise, cambiamenti percepibili.</h2>
+      </div>
+      <div class="container testimonials-grid">
+        <blockquote class="testimonial reveal">
+          <p>“Per la prima volta qualcuno non ha trattato il mio sonno come un problema generico. L’analisi ha reso visibili connessioni che nessuno mi aveva spiegato.”</p>
+          <footer>Professionista, 39 anni</footer>
+        </blockquote>
+        <blockquote class="testimonial reveal">
+          <p>“L’aspetto più utile non è stato ricevere consigli, ma capire il sistema che stava mantenendo la mia stanchezza.”</p>
+          <footer>Manager, 46 anni</footer>
+        </blockquote>
+        <blockquote class="testimonial reveal">
+          <p>“Metodo rigoroso, tono serio, nessuna promessa facile. Ho percepito subito una differenza di livello rispetto agli approcci standard.”</p>
+          <footer>Consulente, 34 anni</footer>
+        </blockquote>
+      </div>
+    </section>
+
+    <section class="section faq" id="faq">
+      <div class="container faq-layout">
+        <div class="section-intro reveal">
+          <p class="eyebrow">FAQ</p>
+          <h2>Domande frequenti</h2>
+        </div>
+        <div class="faq-list reveal">
+          <details>
+            <summary>È un servizio medico?</summary>
+            <p>No. È un servizio di analisi e progettazione del sistema sonno orientato alla comprensione dei fattori che influenzano il recupero. Non sostituisce diagnosi o trattamenti medici.</p>
+          </details>
+          <details>
+            <summary>Posso fare solo l’anamnesi?</summary>
+            <p>Sì. L’anamnesi è una fase autonoma e già molto utile per ottenere una lettura strutturata della situazione attuale.</p>
+          </details>
+          <details>
+            <summary>Il percorso è online?</summary>
+            <p>Sì. Il lavoro può essere svolto online con una struttura chiara, strumenti di raccolta dati e momenti di confronto dedicati.</p>
+          </details>
+          <details>
+            <summary>Quanto dura il percorso?</summary>
+            <p>Dipende dalla complessità del quadro e dagli obiettivi. La durata viene definita dopo l’anamnesi, in base al tipo di problema e alla strategia più adatta.</p>
+          </details>
+          <details>
+            <summary>È necessario cambiare materasso?</summary>
+            <p>Non necessariamente. Il sistema di riposo viene valutato con criterio, ma l’intervento ergonomico viene suggerito solo quando emerge come fattore realmente rilevante.</p>
+          </details>
+        </div>
+      </div>
+    </section>
+
+    <section class="section final-cta" id="contatto">
+      <div class="container final-cta-box reveal">
+        <p class="eyebrow">Prenotazione</p>
+        <h2>Il tuo sonno non dipende da un solo fattore.</h2>
+        <p>Comprendere il sistema che lo genera è il primo passo per trasformarlo.</p>
+        <a class="btn btn-primary" href="mailto:info@sonnosystemdesign.it?subject=Prenotazione%20anamnesi%20del%20sonno">Prenota l’anamnesi</a>
+      </div>
+    </section>
+  </main>
+</body>
+</html>
